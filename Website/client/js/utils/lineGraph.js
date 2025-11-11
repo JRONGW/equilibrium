@@ -1,4 +1,17 @@
+import { Chart, registerables } from 'chart.js';
+import annotationPlugin from 'chartjs-plugin-annotation';
 
+
+Chart.register(...registerables, annotationPlugin, {
+  id: 'preservedDrawingsAndDeviation',
+  afterDraw: (chart) => {
+    if (show_flag && drawnSegments.length > 0) drawDeviation(chart);
+    redrawUserLines();
+  }
+});
+
+
+const API_BASE = window.__API_BASE__ || import.meta?.env?.VITE_API_BASE || "";
 
 
 let chart
@@ -69,7 +82,7 @@ export function init() {
 
 export async function fetchCountryGDP(iso3) {
   try {
-    const response = await fetch(`/api/country/${iso3}/gdp`);
+    const response = await fetch(`${API_BASE}/api/country/${iso3}/gdp`);
     if (!response.ok) throw new Error('Network response was not ok');
     const data = await response.json();
 
@@ -104,7 +117,7 @@ export async function fetchCountryGDP(iso3) {
 
 async function fetchPolicyStartYears(iso3) {
   try {
-    const response = await fetch(`/api/country/${iso3}/policies`);
+    const response = await fetch(`${API_BASE}/api/country/${iso3}/policies`);
     if (!response.ok) throw new Error('Failed to fetch policy start years');
     const data = await response.json();
     return data;
@@ -116,7 +129,7 @@ async function fetchPolicyStartYears(iso3) {
 
 async function fetchPolicyData(iso3, indicatorCode) {
   try {
-    const response = await fetch(`/api/country/${iso3}/series?codes=${indicatorCode}`);
+    const response = await fetch(`${API_BASE}/api/country/${iso3}/series?codes=${indicatorCode}`);
     if (!response.ok) throw new Error('Failed to fetch policy data');
     const data = await response.json();
     return data;

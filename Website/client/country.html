@@ -3,11 +3,10 @@
   <head>
     <title>Country Line Graph</title>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="./css/country.css" />
-   
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.2.1"></script>
-  </head>
+    <link rel="stylesheet" href="/css/country.css" />
+    <link rel="stylesheet" href="/css/home.css" />
+
+ </head>
   
 
   <body>  
@@ -54,56 +53,36 @@
 
     </div>
 
-    <!-- country.html -->
-    <script type="module">
-      import { init, fetchCountryGDP } from '/src/js/utils/lineGraph.js';
-      // (use the source path under /src/, Vite will bundle & rewrite)
+<script src="/js/utils/lineGraph.js" defer></script>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const countryName = params.get('country') || 'Brazil';
+  document.getElementById('countryName').textContent = countryName;
 
-      window.addEventListener('load', async () => {
-        await loadCountryHTML(countryName);
-        init();
-        await fetchCountryGDP(countryCode);
-      });
-    </script>
+  const ISO3_BY_NAME = { Brazil:'BRA', Poland:'POL', 'South Korea':'KOR' };
 
-    <script>
-      const params = new URLSearchParams(window.location.search);
-      const countryName = params.get("country");
+  async function loadCountryHTML(name) {
+    const fileName = name.toLowerCase().replace(/\s+/g, '') + '.html';
+    const url = `/content/${fileName}`;
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('Country content not found: ' + url);
+      const html = await res.text();
+      document.getElementById('countryContent').innerHTML = html;
+    } catch (err) {
+      console.warn(err);
+      document.getElementById('countryContent').innerHTML =
+        `<p>No description available for ${name}.</p>`;
+    }
+  }
 
-      document.getElementById("countryName").textContent = countryName;
+  const countryCode = ISO3_BY_NAME[countryName];
 
-      // Mapping to ISO codes
-      const ISO3_BY_NAME = {
-        "Brazil": "BRA",
-        "Poland": "POL",
-        "South Korea": "KOR"
-      };
-
-      // Dynamically load the correct HTML snippet
-      async function loadCountryHTML(countryName) {
-        const fileName = countryName.toLowerCase().replace(/\s+/g, "") + ".html";
-        const url = `content/${fileName}`;
-
-        try {
-          const res = await fetch(url);
-          if (!res.ok) throw new Error("Country content not found: " + url);
-
-          const html = await res.text();
-          document.getElementById("countryContent").innerHTML = html;
-        } catch (err) {
-          console.warn(err);
-          document.getElementById("countryContent").innerHTML =
-            `<p>No description available for ${countryName}.</p>`;
-        }
-      }
-
-      const countryCode = ISO3_BY_NAME[countryName];
-
-      window.onload = async function() {
-        await loadCountryHTML(countryName);   // ← Load written content
-        init();                              // ← Set up chart canvas etc.
-        await fetchCountryGDP(countryCode);  // ← Fetch and draw data
-      };
-    </script>
+  window.addEventListener('DOMContentLoaded', async () => {
+    await loadCountryHTML(countryName);
+    window.init();
+    await window.fetchCountryGDP(countryCode);
+  });
+</script>
   </body>
 </html>
