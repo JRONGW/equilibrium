@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Country Line Graph</title>
+    <meta charset="UTF-8" />
+
+   
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.2.1"></script>
+    <link rel="stylesheet" crossorigin href="/assets/country-DRvdZztK.css">
+    <link rel="stylesheet" crossorigin href="/assets/home-SxmKTPVo.css">
+  </head>
+  
+
+  <body>  
+    <!-- Pill Header -->
+    <header class="pill-bar header">
+      <div class="pill-inner">
+        <div class="left"></div>
+
+        <div class="center">
+          <h1 class="site-title">Equilibrium</h1>
+          <nav class="site-nav">
+            <a href="/index.html">Home</a>
+            <a href="/about.html">About</a>
+            <a href="timeline.html">Timeline</a>
+            <a href="country.html?country=Brazil">Brazil</a>
+            <a href="country.html?country=Poland">Poland</a>
+            <a href="country.html?country=South%20Korea">South Korea</a>
+
+          </nav>
+        </div>
+
+        <div class="right"></div>
+        <!-- (hamburger removed) -->
+      </div>
+    </header>
+
+    <div class="content">
+      
+ 
+    <h2 id="countryName"></h2>
+
+    <!-- Country description area (HTML loaded dynamically here) -->
+    <div id="countryContent" style="max-width:1180px; line-height:1.6;"></div>
+
+    <div style="position:relative; width:1180px; height:590px;">
+      <canvas id="canvasChart" width="1180" height="590"
+        style="position:absolute; top:0; left:0;"></canvas>
+    </div>
+
+    <div style="margin-top:10px;">
+      <button onclick="showAllData()">Show All Data</button>
+      <button onclick="erase()">Redo Line</button>
+    </div>
+
+    </div>
+
+<script src="/js/utils/lineGraph.js" defer></script>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const countryName = params.get('country') || 'Brazil';
+  document.getElementById('countryName').textContent = countryName;
+
+  const ISO3_BY_NAME = { Brazil:'BRA', Poland:'POL', 'South Korea':'KOR' };
+
+  async function loadCountryHTML(name) {
+    const fileName = name.toLowerCase().replace(/\s+/g, '') + '.html';
+    const url = `/content/${fileName}`;
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('Country content not found: ' + url);
+      const html = await res.text();
+      document.getElementById('countryContent').innerHTML = html;
+    } catch (err) {
+      console.warn(err);
+      document.getElementById('countryContent').innerHTML =
+        `<p>No description available for ${name}.</p>`;
+    }
+  }
+
+  const countryCode = ISO3_BY_NAME[countryName];
+
+  window.addEventListener('DOMContentLoaded', async () => {
+    await loadCountryHTML(countryName);
+    window.init();
+    await window.fetchCountryGDP(countryCode);
+  });
+</script>
+  </body>
+</html>
