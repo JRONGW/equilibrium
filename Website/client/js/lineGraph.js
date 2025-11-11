@@ -46,7 +46,7 @@ if (window['chartjs-plugin-annotation']) {
   console.error('Annotation plugin not found');
 }
 
-function init() {
+export function init() {
     canvas = document.getElementById('canvasChart')
     ctx = canvas.getContext('2d');
     w = canvas.width;
@@ -67,7 +67,7 @@ function init() {
     }, false)
 }
 
-async function fetchCountryGDP(iso3) {
+export async function fetchCountryGDP(iso3) {
   try {
     const response = await fetch(`/api/country/${iso3}/gdp`);
     if (!response.ok) throw new Error('Network response was not ok');

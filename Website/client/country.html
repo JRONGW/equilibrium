@@ -54,7 +54,17 @@
 
     </div>
 
-    <script type="text/javascript" src="./js/lineGraph.js"></script>
+    <!-- country.html -->
+    <script type="module">
+      import { init, fetchCountryGDP } from '/src/js/utils/lineGraph.js';
+      // (use the source path under /src/, Vite will bundle & rewrite)
+
+      window.addEventListener('load', async () => {
+        await loadCountryHTML(countryName);
+        init();
+        await fetchCountryGDP(countryCode);
+      });
+    </script>
 
     <script>
       const params = new URLSearchParams(window.location.search);
