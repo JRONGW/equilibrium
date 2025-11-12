@@ -53,9 +53,7 @@ function _norm01(v,min,max){
   return Math.max(0,Math.min(1,x));
 }
 
-const API_BASE = window.location.hostname === 'localhost' && window.location.port === '8080'
-  ? 'http://localhost:8080'  // Development
-  : '';
+const API_BASE ='http://localhost:3000';
 
 // backend API fetch for a country's series data
 async function _fetchCountrySeries(iso3){

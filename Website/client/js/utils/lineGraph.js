@@ -11,9 +11,7 @@ Chart.register(...registerables, annotationPlugin, {
 });
 
 
-const API_BASE = window.location.hostname === 'localhost' && window.location.port === '8080'
-  ? 'http://localhost:8080'  // Development
-  : '';
+const API_BASE = 'http://localhost:3000';
 
 
 let chart
