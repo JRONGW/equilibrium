@@ -1,5 +1,9 @@
 # CASA0017 Web Assessment ReadMe File
 
+This repository is trying to deploy on outside server.
+
+https://casa0017-deploy-equilibrium.onrender.com/
+
 # 🌍 Equilibrium — CASA0017 Web Assessment
 
 [![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
