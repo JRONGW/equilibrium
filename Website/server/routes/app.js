@@ -9,12 +9,12 @@ const app = express();
 app.use(cors());
 // app.use(express.json());
 
-// app.use('/js', express.static(path.join(process.cwd(), 'Website', 'client', 'js')));
-// app.use('/css', express.static(path.join(process.cwd(), 'Website', 'client', 'css')));
-// app.use('/img', express.static(path.join(process.cwd(), 'Website', 'client', 'img')));
+// app.use('/js', express.static(path.join('client', 'js')));
+// app.use('/css', express.static(path.join('client', 'css')));
+// app.use('/img', express.static(path.join('client', 'img')));
 
 // app.get('/', (_, res) =>
-//   res.sendFile(path.join(process.cwd(), 'Website', 'client', 'index.html'))
+//   res.sendFile(path.join('client', 'index.html'))
 // );
 
 const __filename = fileURLToPath(import.meta.url);
