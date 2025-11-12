@@ -11,7 +11,7 @@ Chart.register(...registerables, annotationPlugin, {
 });
 
 
-const API_BASE = window.__API_BASE__ || import.meta?.env?.VITE_API_BASE || "";
+const API_BASE = "http://localhost:8080";
 
 
 let chart
