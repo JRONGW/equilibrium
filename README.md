@@ -2,7 +2,7 @@
 
 This repository is trying to deploy on outside server.
 
-https://casa0017-deploy-equilibrium.onrender.com/country.html?country=South%20Korea
+https://casa0017-deploy-equilibrium.onrender.com/
 
 # 🌍 Equilibrium — CASA0017 Web Assessment
 
