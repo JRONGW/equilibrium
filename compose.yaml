@@ -1,6 +1,6 @@
 services:
   casa0017assessment:
-    image: casa0017assessment
+    image: equilibirium
     build:
       context: Website
       dockerfile: ./Dockerfile
